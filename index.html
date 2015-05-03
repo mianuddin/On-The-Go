@@ -1,11 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel='stylesheet' href='stylesheet.css'>
+        <link rel='stylesheet' href='css/stylesheet.css'>
+        <link rel='stylesheet' href='css/bootstrap.min.css'>
+		<link rel='stylesheet' href='css/normalize.css'>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWvLNnyGeZbx4bXYkcJcEcRsoPaogyYHA"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="script.js"></script>
+        <script type='text/javascript'>
+            WebFontConfig = {
+                    google: { families: [ 'Roboto:300,400,700:latin' ] }
+                };
+                (function() {
+                var wf = document.createElement('script');
+                wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+                wf.type = 'text/javascript';
+                wf.async = 'true';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(wf, s);
+                })();
+        </script>
     </head>
     <body>
+        <div id='map-overlay'>
+            <h2 class='container'>Closest Bathroom</h2>
+        </div>
         <div id="map-canvas"></div>
+        <section id='content' class='container'>
+            <div class='row'>
+                <div class='col-xs-8' id='stars'>
+                    
+                </div>
+                <div class='col-xs-4' id='dist'>
+                    
+                </div>
+            </div>
+            <div class='row' id='deets'>
+                <span class='title'>Details</span>
+            </div>
+        </section>
     </body>
 </html>
