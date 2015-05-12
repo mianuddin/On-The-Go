@@ -38,6 +38,7 @@ var dataParser = (function (position, callback) {
         // Load information from first item in db. Room for optimization.
         closest.name = jData.data[1][8];
         closest.deets = jData.data[1][11] + "...";
+        closest.rating = jData.data[1][12];
         closest.lat = jData.data[1][13][1];
         closest.lng = jData.data[1][13][2];
         closest.dist = getDistanceFromLatLonInMi(position.coords.latitude, position.coords.longitude, jData.data[1][13][1], jData.data[1][13][2]);
@@ -47,6 +48,7 @@ var dataParser = (function (position, callback) {
             if(currentDist < closest.dist) {
                 closest.name = item[8];
                 closest.deets = item[11] + "...";
+                closest.rating = item[12];
                 closest.lat = item[13][1];
                 closest.lng = item[13][2];
                 closest.dist = currentDist;
@@ -76,8 +78,55 @@ function deg2rad(deg) {
 
 function appendInfo (closest) {
     $('#content').prepend('<span>' + closest.name + "</span>"); // Name of bathroom.
-    $('#dist').append('<span>' + closest.dist.toFixed(2) + " Mi Away</span>"); // Distance from bathroom.
+     $('#stats>div').append(generateStars(closest) + '<span>' + closest.dist.toFixed(2) + " Mi Away</span>"); // Stats from db.
     $('#deets').append('<p>' + closest.deets + "</p>"); // Details from db.
     $('#navigate').append('<a href="https://www.google.com/maps/dir/Current+Location/' + closest.lat + ',' + closest.lng + '">Navigate</a>'); // GMaps navigation.
     $('#spinner-overlay').css('display', 'none'); // Hide spinner.
+}
+
+function generateStars(closest) {
+    var starHTML = "";
+    
+    switch(closest.rating) {
+        case "G":
+            for(var i=0; i<5; i++) {
+                starHTML += '<span class="goldStar">&#9733;</span>';
+            }
+            break;
+        case "g":
+            for(var i=0; i<5; i++) {
+                starHTML += '<span class="goldStar">&#9733;</span>';
+            }
+            break;
+        case "Y":
+            for(var i=0; i<3; i++) {
+                starHTML += '<span class="goldStar">&#9733;</span>';
+            }
+            for(var i=0; i<2; i++) {
+                starHTML += '<span class="star">&#9733;</span>';
+            }
+            break;
+        case "y":
+            for(var i=0; i<3; i++) {
+                starHTML += '<span class="goldStar">&#9733;</span>';
+            }
+            for(var i=0; i<2; i++) {
+                starHTML += '<span class="star">&#9733;</span>';
+            }
+            break;
+        case "R":
+            for(var i=0; i<5; i++) {
+                starHTML += '<span class="star">&#9733;</span>';
+            }
+            break;
+        case "r":
+            for(var i=0; i<5; i++) {
+                starHTML += '<span class="star">&#9733;</span>';
+            }
+            break;
+        default:
+            starHTML += '<span>No rating.</span>';
+    }
+    starHTML += '<span>&nbsp|&nbsp</span>';
+    return starHTML;
 }
