@@ -78,9 +78,9 @@ function deg2rad(deg) {
 
 function appendInfo (closest) {
     $('#content').prepend('<span>' + closest.name + "</span>"); // Name of bathroom.
-     $('#stats>div').append(generateStars(closest) + '<span>' + closest.dist.toFixed(2) + " Mi Away</span>"); // Stats from db.
+    $('#stats>div').append(generateStars(closest) + '<span>' + closest.dist.toFixed(2) + " Mi Away</span>"); // Stats from db.
     $('#deets').append('<p>' + closest.deets + "</p>"); // Details from db.
-    $('#navigate').append('<a href="https://www.google.com/maps/dir/Current+Location/' + closest.lat + ',' + closest.lng + '">Navigate</a>'); // GMaps navigation.
+    $('#navigate').attr('href', 'https://www.google.com/maps/dir/Current+Location/' + closest.lat + ',' + closest.lng ); // GMaps navigation.
     $('#spinner-overlay').css('display', 'none'); // Hide spinner.
 }
 

@@ -96,6 +96,10 @@ body {
   padding: 0;
 }
 
+#content {
+  margin-top: 12px;
+}
+
 #content>span {
   font-weight: 700;
   font-size: 30px;
@@ -142,16 +146,26 @@ body {
   width: 100%;
   position: absolute;
   bottom: 0;
-  background: #091175;
+  background: #3F51B5;
   text-align: center;
   display: flex;
 }
 
-#navigate a {
+#navigate span {
   color: #fff;
   text-transform: uppercase;
   font-weight: 700;
   font-size: 36px;
   text-align: center;
   margin: 12px auto;
+}
+
+#navigate:hover {
+       -o-transition: .5s;
+      -ms-transition: .5s;
+     -moz-transition: .5s;
+  -webkit-transition: .5s;
+          transition: .5s;
+  text-decoration: none;
+  background: #5C6BC0;
 }
