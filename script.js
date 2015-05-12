@@ -1,8 +1,10 @@
-// var onTheGo = onTheGo || {};
+// Run at start.
+console.log("-- start --");
 navigator.geolocation.getCurrentPosition(function (position) {
+    console.log("-- geolocation enabled --");
+    console.log("-- " + position.coords.latitude.toFixed(2) + ", " + position.coords.longitude.toFixed(2) + " --");
     var nearest = dataParser(position, function (position, nearest) {
         google.maps.event.addDomListener(window, 'load', initializeMap(position, nearest));
-        console.log("geolocation enabled");
         appendInfo(nearest);
     });
 },
@@ -11,11 +13,13 @@ function (error) {
       console.log("geolocation denied");
 });
 
+// Code
 function initializeMap(position, closest) {
-        console.log("Initialize:" + closest.lat + ", " + closest.lng);
+    console.log("-- initializing map at " + closest.lat + ", " + closest.lng + " --");
     var mapOptions = {
         center: { lat: parseFloat(closest.lat), lng: parseFloat(closest.lng)},
-        zoom: 18
+        zoom: 18,
+        disableDefaultUI: true
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
@@ -27,18 +31,18 @@ function initializeMap(position, closest) {
 }
 
 var dataParser = (function (position, callback) {
-    console.log("1");
+    console.log("-- data parser --");
     var closest = new Object();
     $.getJSON( "acbathrooms.json", function( jData ) {
-        console.log("2");
+        console.log("-- loaded json --");
+        // Load information from first item in db. Room for optimization.
         closest.name = jData.data[1][8];
         closest.deets = jData.data[1][11] + "...";
         closest.lat = jData.data[1][13][1];
         closest.lng = jData.data[1][13][2];
         closest.dist = getDistanceFromLatLonInMi(position.coords.latitude, position.coords.longitude, jData.data[1][13][1], jData.data[1][13][2]);
-        console.log(closest.dist);
+        // Go through items in db.
         $.each(jData.data, function(i, item) {
-            // console.log(item[13][1] + ", " + item[13][2]);
             var currentDist = getDistanceFromLatLonInMi(position.coords.latitude, position.coords.longitude, item[13][1], item[13][2]);
             if(currentDist < closest.dist) {
                 closest.name = item[8];
@@ -47,13 +51,11 @@ var dataParser = (function (position, callback) {
                 closest.lng = item[13][2];
                 closest.dist = currentDist;
             }
-            console.log(currentDist);
         });
-        console.log(closest.name + ": " + closest.lat + ", " + closest.lng);
+        console.log("-- closest bathroom - " + closest.name + ": " + closest.lat + ", " + closest.lng + " --");
         callback(position, closest);
     });
 });
-
 
 function getDistanceFromLatLonInMi (lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
@@ -65,7 +67,7 @@ function getDistanceFromLatLonInMi (lat1,lon1,lat2,lon2) {
         Math.sin(dLon/2) * Math.sin(dLon/2); 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
-    return d*0.621371;
+    return d*0.621371; // Distance in km times conversion factor for miles.
 }
 
 function deg2rad(deg) {
@@ -73,7 +75,9 @@ function deg2rad(deg) {
 }
 
 function appendInfo (closest) {
-    $('#content').prepend('<span>' + closest.name + "</span>");
-    $('#dist').append('<span>' + closest.dist.toFixed(2) + " Mi Away</span>");
-    $('#deets').append('<p>' + closest.deets + "</p>");
+    $('#content').prepend('<span>' + closest.name + "</span>"); // Name of bathroom.
+    $('#dist').append('<span>' + closest.dist.toFixed(2) + " Mi Away</span>"); // Distance from bathroom.
+    $('#deets').append('<p>' + closest.deets + "</p>"); // Details from db.
+    $('#navigate').append('<a href="https://www.google.com/maps/dir/Current+Location/' + closest.lat + ',' + closest.lng + '">Navigate</a>'); // GMaps navigation.
+    $('#spinner-overlay').css('display', 'none'); // Hide spinner.
 }

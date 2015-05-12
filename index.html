@@ -20,24 +20,34 @@
                 s.parentNode.insertBefore(wf, s);
                 })();
         </script>
+        <meta charset='UTF-8'>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
+        <div id='spinner-overlay'>
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+        </div>
         <div id='map-overlay'>
             <h2 class='container'>Closest Bathroom</h2>
         </div>
         <div id="map-canvas"></div>
         <section id='content' class='container'>
-            <div class='row'>
-                <div class='col-xs-8' id='stars'>
+            <div class='row irow'>
+                <div id='stars'>
                     
                 </div>
-                <div class='col-xs-4' id='dist'>
+                <div id='dist'>
                     
                 </div>
             </div>
-            <div class='row' id='deets'>
+            <div class='row irow' id='deets'>
                 <span class='title'>Details</span>
             </div>
         </section>
+        <div id='navigate'>
+        </div>
     </body>
 </html>
