@@ -2,7 +2,7 @@
 console.log("-- start --");
 navigator.geolocation.getCurrentPosition(function (position) {
     console.log("-- geolocation enabled --");
-    console.log("-- " + position.coords.latitude.toFixed(2) + ", " + position.coords.longitude.toFixed(2) + " --");
+    console.log("-- " + position.coords.latitude + ", " + position.coords.longitude + " --");
     var nearest = dataParser(position, function (position, nearest) {
         google.maps.event.addDomListener(window, 'load', initializeMap(position, nearest));
         appendInfo(nearest);
@@ -76,12 +76,15 @@ function deg2rad(deg) {
     return deg * (Math.PI/180)
 }
 
+// Draw Information
+
 function appendInfo (closest) {
     $('#content').prepend('<span>' + closest.name + "</span>"); // Name of bathroom.
     $('#stats>div').append(generateStars(closest) + '<span>' + closest.dist.toFixed(2) + " Mi Away</span>"); // Stats from db.
     $('#deets').append('<p>' + closest.deets + "</p>"); // Details from db.
     $('#navigate').attr('href', 'https://www.google.com/maps/dir/Current+Location/' + closest.lat + ',' + closest.lng ); // GMaps navigation.
-    $('#spinner-overlay').css('display', 'none'); // Hide spinner.
+    $('#spinner-overlay').css('height', '0px'); // Hide spinner.
+    $('.spinner>div').css('height', '0px'); // Hide spinner.
 }
 
 function generateStars(closest) {
@@ -127,6 +130,8 @@ function generateStars(closest) {
         default:
             starHTML += '<span>No rating.</span>';
     }
+    
     starHTML += '<span>&nbsp|&nbsp</span>';
+    
     return starHTML;
 }

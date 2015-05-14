@@ -13,6 +13,11 @@ body {
   position: absolute;
   z-index: 5;
   background: #091175;
+       -o-transition: .5s;
+      -ms-transition: .5s;
+     -moz-transition: .5s;
+  -webkit-transition: .5s;
+          transition: .5s;
 }
 
 .spinner {
@@ -107,15 +112,15 @@ body {
   margin-bottom: 0;
 }
 
+.noMargin {
+  margin: 0 !important;
+}
+
 .title {
   font-weight: 700;
   font-size: 24px;
   margin-bottom: 0;
   margin: 0;
-}
-
-.irow {
-  margin: 0 !important;
 }
 
 .star {
